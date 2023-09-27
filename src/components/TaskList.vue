@@ -5,7 +5,9 @@
       <label>Show by Status:</label>
       <select v-model="selectedStatus">
         <option value="all">All</option>
-        <option v-for="status in uniqueStatuses" :key="status" :value="status">{{ status }}</option>
+        <option value="New">New</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
       </select>
     </div>
 
@@ -19,11 +21,9 @@
             @change="markTaskCompleted(task)"
           />
           <span :class="{ 'completed-task': task.completed }">{{ task.title }}</span>
-
-          <!-- Display and update the task's status with a dropdown -->
         </div>
         <div>
-          <select class="status-options" v-model="task.status" @change="updateTaskStatus(task)">
+          <select class="status-options" selected="task.status" @change="updateTaskStatus(task)">
             <option value="New">New</option>
             <option value="In Progress">In Progress</option>
             <option value="Completed">Completed</option>
@@ -46,14 +46,6 @@ export default {
     };
   },
   computed: {
-    // Extract unique status values from tasks
-    uniqueStatuses() {
-      const statuses = new Set();
-      this.tasks.forEach(task => {
-        statuses.add(task.status);
-      });
-      return Array.from(statuses);
-    },
     filteredTasks() {
       if (this.selectedStatus === 'all') {
         return this.tasks; // Return all tasks if "All" is selected
@@ -71,15 +63,24 @@ export default {
       // Emit an event to notify the parent component that a task is marked as completed
       this.$emit('mark-task-completed', task.id);
     },
-    updateTaskStatus(task) {
-      // Find the index of the task in this.tasks and update its status
-      const index = this.tasks.findIndex(t => t.id === task.id);
-      if (index !== -1) {
-        this.tasks[index].status = task.status;
-        // Emit an event to notify the parent component that a task's status has been updated
-        this.$emit('update-task-status', this.tasks[index]);
-      }
-    },
+    updateTaskStatus(updatedTask) {
+  // Find the index of the task in the tasks array
+  const taskIndex = this.tasks.findIndex(task => task.id === updatedTask.id);
+
+  if (taskIndex !== -1) {
+    // Create a copy of the task object with the updated status
+    const updatedTaskCopy = { ...this.tasks[taskIndex], status: updatedTask.status };
+
+    // Emit an event to notify the parent component of the status change
+    this.$emit('update-task-status', updatedTaskCopy);
+    this.saveTasksToLocalStorage();
+  }
+}
+
+// eslint-disable-next-line
+// this.tasks = [...this.tasks], // This line disables the ESLint rule for the next line
+
+
   },
 };
 </script>
@@ -124,7 +125,8 @@ ul {
   }
 }
 button {
-  background-color: #ff0000;
+  background-color: #FF2400;
+  font-family: 'Times New Roman', Times, serif;
   color: #fff;
   border: none;
   padding: 5px 10px;
@@ -141,7 +143,7 @@ button {
   }
 }
 .completed-task {
-  color: red;
+  color: #FF2400;
   text-decoration: line-through;
 }
 select {
@@ -153,6 +155,14 @@ select {
 }
 .status-options {
   margin-right: 15px;
+  font-size: 17px;
   align-self: center;
+  font-family: 'Times New Roman', Times, serif;
+}
+@media screen and (max-width: 768px) {
+  .status-options {
+    font-size: 13px;
+    width: 100px;
+  }
 }
 </style>

@@ -1,19 +1,18 @@
 <template>
-    <div>
-      <button @click="deleteCompletedTasks">Delete Completed Tasks</button>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    methods: {
-      deleteCompletedTasks() {
-        // Emit an event to notify the parent component to delete completed tasks
-        this.$emit('delete-completed-tasks');
-      },
+  <div>
+    <button @click="deleteCompletedTasks">Delete Completed Tasks</button>
+  </div>
+</template>
+
+<script>
+export default {
+  methods: {
+    deleteCompletedTasks() {
+      this.$emit('delete-completed-tasks');
     },
-  };
-  </script>
+  },
+};
+</script>
   
   <style scoped>
 /* TaskCreation-specific styles */
@@ -24,7 +23,8 @@ input {
 
 
 button {
-  background-color: red;
+  background-color: #FF2400;
+  font-family: 'Times New Roman', Times, serif;
   height: 35px;
   border-radius: 5px;
   color: #fff;

@@ -4,10 +4,10 @@
     <div class="task-manager-sub-container">
       <TaskCreation @add-task="addTask"></TaskCreation>
       <div class="sub-container">
-        <TaskFiltering @filter-tasks="filterTasks"></TaskFiltering>
+        <!-- <TaskFiltering :tasks="tasks" @filter-tasks="filterTasks"></TaskFiltering> -->
         <TaskDeletion @delete-completed-tasks="deleteCompletedTasks"></TaskDeletion>
       </div>
-      <TaskList :tasks="filteredTasks" @delete-task="deleteTask"></TaskList>
+      <TaskList :tasks="filteredTasks" @delete-task="deleteTask" @mark-task-completed="markTaskCompleted"></TaskList>
     </div>
   </div>
 </template>
@@ -16,19 +16,18 @@
 import TaskCreation from './components/TaskCreation.vue';
 import TaskList from './components/TaskList.vue';
 import TaskDeletion from './components/TaskDeletion.vue';
-import TaskFiltering from './components/TaskFiltering.vue';
+// import TaskFiltering from './components/TaskFiltering.vue';
 
 export default {
   components: {
     TaskCreation,
     TaskList,
     TaskDeletion,
-    TaskFiltering,
+    // TaskFiltering,
   },
   data() {
     return {
       tasks: [],
-      filter: 'all',
     };
   },
   computed: {
@@ -65,14 +64,12 @@ export default {
       this.filter = filter;
     },
     markTaskCompleted(taskId) {
-    const task = this.tasks.find(task => task.id === taskId);
-    if (task) {
-      task.completed = true;
-      this.saveTasksToLocalStorage(); // Update local storage
-    }
-  },
-
-    // Other methods as needed
+      const task = this.tasks.find(task => task.id === taskId);
+      if (task) {
+        task.completed = true;
+        this.saveTasksToLocalStorage();
+      }
+    },
     saveTasksToLocalStorage() {
       localStorage.setItem('tasks', JSON.stringify(this.tasks));
     },
@@ -85,6 +82,8 @@ export default {
   },
 };
 </script>
+
+
 
 <style scoped>
 /* TaskCreation-specific styles */
