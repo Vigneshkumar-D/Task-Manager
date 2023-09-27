@@ -22,6 +22,7 @@ input {
   margin-right: 10px;
 }
 
+
 button {
   background-color: red;
   height: 35px;
