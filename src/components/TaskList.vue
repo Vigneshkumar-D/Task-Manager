@@ -1,7 +1,7 @@
 <template>
   <div class="task-list-container">
     <!-- Dropdown to filter tasks by status -->
-    <div class="status-filter">
+    <!-- <div class="status-filter">
       <label>Show by Status:</label>
       <select v-model="selectedStatus">
         <option value="all">All</option>
@@ -9,7 +9,7 @@
         <option value="In Progress">In Progress</option>
         <option value="Completed">Completed</option>
       </select>
-    </div>
+    </div> -->
 
     <ul>
       <li class="task-list-item" v-for="task in filteredTasks" :key="task.id">

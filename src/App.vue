@@ -4,7 +4,7 @@
     <div class="task-manager-sub-container">
       <TaskCreation @add-task="addTask"></TaskCreation>
       <div class="sub-container">
-        <!-- <TaskFiltering :tasks="tasks" @filter-tasks="filterTasks"></TaskFiltering> -->
+        <TaskFiltering :tasks="tasks" @filter-tasks="filterTasks"></TaskFiltering>
         <TaskDeletion @delete-completed-tasks="deleteCompletedTasks"></TaskDeletion>
       </div>
       <TaskList :tasks="filteredTasks" @delete-task="deleteTask" @mark-task-completed="markTaskCompleted"></TaskList>
@@ -16,14 +16,14 @@
 import TaskCreation from './components/TaskCreation.vue';
 import TaskList from './components/TaskList.vue';
 import TaskDeletion from './components/TaskDeletion.vue';
-// import TaskFiltering from './components/TaskFiltering.vue';
+import TaskFiltering from './components/TaskFiltering.vue';
 
 export default {
   components: {
     TaskCreation,
     TaskList,
     TaskDeletion,
-    // TaskFiltering,
+    TaskFiltering,
   },
   data() {
     return {

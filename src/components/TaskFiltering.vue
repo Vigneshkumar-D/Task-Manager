@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="task-list-container">
     <div class="status-filter">
       <label>Show by Status:</label>
@@ -49,4 +49,4 @@ input {
     font-size: 13px;
   }
 }
-</style> -->
+</style>
