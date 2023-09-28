@@ -1,16 +1,5 @@
 <template>
   <div class="task-list-container">
-    <!-- Dropdown to filter tasks by status -->
-    <!-- <div class="status-filter">
-      <label>Show by Status:</label>
-      <select v-model="selectedStatus">
-        <option value="all">All</option>
-        <option value="New">New</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Completed">Completed</option>
-      </select>
-    </div> -->
-
     <ul>
       <li class="task-list-item" v-for="task in filteredTasks" :key="task.id">
         <div>
@@ -23,7 +12,7 @@
           <span :class="{ 'completed-task': task.completed }">{{ task.title }}</span>
         </div>
         <div>
-          <select class="status-options" selected="task.status" @change="updateTaskStatus(task)">
+          <select class="status-options" v-model="task.taskStatus" selected="task.taskStatus" @change="updateTaskStatus(task)">
             <option value="New">New</option>
             <option value="In Progress">In Progress</option>
             <option value="Completed">Completed</option>
@@ -39,6 +28,7 @@
 export default {
   props: {
     tasks: Array,
+    // filteredTasksArray: Array
   },
   data() {
     return {
@@ -51,7 +41,7 @@ export default {
         return this.tasks; // Return all tasks if "All" is selected
       } else {
         // Filter tasks based on selected status
-        return this.tasks.filter(task => task.status === this.selectedStatus);
+        return this.tasks.filter(task => task.taskStatus === this.selectedStatus);
       }
     },
   },
@@ -59,27 +49,21 @@ export default {
     deleteTask(id) {
       this.$emit('delete-task', id);
     },
+
     markTaskCompleted(task) {
       // Emit an event to notify the parent component that a task is marked as completed
       this.$emit('mark-task-completed', task.id);
     },
-    updateTaskStatus(updatedTask) {
-  // Find the index of the task in the tasks array
-  const taskIndex = this.tasks.findIndex(task => task.id === updatedTask.id);
 
-  if (taskIndex !== -1) {
-    // Create a copy of the task object with the updated status
-    const updatedTaskCopy = { ...this.tasks[taskIndex], status: updatedTask.status };
-
-    // Emit an event to notify the parent component of the status change
-    this.$emit('update-task-status', updatedTaskCopy);
-    this.saveTasksToLocalStorage();
-  }
-}
-
-// eslint-disable-next-line
-// this.tasks = [...this.tasks], // This line disables the ESLint rule for the next line
-
+    updateFilter() {
+      this.$emit('filter-tasks', this.selectedStatus);
+    },
+     
+    updateTaskStatus(task) {
+  // Emit an event to notify the parent component that a task's status has changed
+      // console.log(task)
+      this.$emit('update-task-status', task);
+    }
 
   },
 };

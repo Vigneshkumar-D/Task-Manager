@@ -24,6 +24,7 @@ export default {
   },
   methods: {
     updateFilter() {
+      console.log(this.selectedStatus)
       this.$emit('filter-tasks', this.selectedStatus);
     },
   },

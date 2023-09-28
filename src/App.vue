@@ -7,10 +7,11 @@
         <TaskFiltering :tasks="tasks" @filter-tasks="filterTasks"></TaskFiltering>
         <TaskDeletion @delete-completed-tasks="deleteCompletedTasks"></TaskDeletion>
       </div>
-      <TaskList :tasks="filteredTasks" @delete-task="deleteTask" @mark-task-completed="markTaskCompleted"></TaskList>
+      <TaskList :tasks="filteredTasksArray" @update-task-status="handleUpdateTaskStatus" @delete-task="deleteTask" @mark-task-completed="markTaskCompleted"></TaskList>
     </div>
   </div>
 </template>
+
 
 <script>
 import TaskCreation from './components/TaskCreation.vue';
@@ -28,30 +29,42 @@ export default {
   data() {
     return {
       tasks: [],
+      filteredTasksArray: [], 
     };
   },
   computed: {
-    filteredTasks() {
-      if (this.filter === 'completed') {
-        return this.tasks.filter(task => task.completed);
-      } else if (this.filter === 'incomplete') {
-        return this.tasks.filter(task => !task.completed);
-      } else {
-        return this.tasks;
-      }
-    },
+    // filteredTasks() {
+    //   if (this.filter === 'completed') {
+    //     return this.tasks.filter(task => task.completed);
+    //   } else if (this.filter === 'incomplete') {
+    //     return this.tasks.filter(task => !task.completed);
+    //   } else {
+    //     return this.tasks;
+    //   }
+    
+    // },
   },
   methods: {
-    addTask(newTask) {
+    addTask(newTask, status) {
       const task = {
         id: Date.now(),
         title: newTask,
+        taskStatus: status,
         completed: false,
       };
-
+      console.log(task)
       this.tasks.push(task);
       this.saveTasksToLocalStorage();
     },
+
+    filterTasks(selectedStatus) {
+      if (selectedStatus === 'all') {
+        this.filteredTasksArray = this.tasks; // Show all tasks
+      } else {
+        this.filteredTasksArray = this.tasks.filter(task => task.taskStatus === selectedStatus);
+      }
+    },
+
     deleteTask(id) {
       this.tasks = this.tasks.filter(task => task.id !== id);
       this.saveTasksToLocalStorage();
@@ -60,9 +73,7 @@ export default {
       this.tasks = this.tasks.filter(task => !task.completed);
       this.saveTasksToLocalStorage();
     },
-    filterTasks(filter) {
-      this.filter = filter;
-    },
+  
     markTaskCompleted(taskId) {
       const task = this.tasks.find(task => task.id === taskId);
       if (task) {
@@ -70,6 +81,14 @@ export default {
         this.saveTasksToLocalStorage();
       }
     },
+    handleUpdateTaskStatus(updatedTask) {
+      console.log("updatedTask" + updatedTask)
+    const taskIndex = this.tasks.findIndex(task => task.id === updatedTask.id);
+    if (taskIndex !== -1) {
+      this.tasks[taskIndex].taskStatus = updatedTask.taskStatus;
+      this.saveTasksToLocalStorage();
+    }
+  },
     saveTasksToLocalStorage() {
       localStorage.setItem('tasks', JSON.stringify(this.tasks));
     },
