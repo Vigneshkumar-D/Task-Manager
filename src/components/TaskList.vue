@@ -7,13 +7,12 @@
             class="check-box"
             type="checkbox"
             :checked="task.taskStatus === 'Completed'"
-            v-model="task.completed"
             @change="markTaskCompleted(task)"
           />
           <span :class="{ 'completed-task': task.taskStatus=== 'Completed' }">{{ task.title }}</span>
         </div>
         <div>
-          <select class="status-options" v-model="task.taskStatus" selected="task.taskStatus" @change="updateTaskStatus(task)">
+          <select class="status-options" v-model="task.taskStatus" @change="updateTaskStatus(task)">
             <option value="New">New</option>
             <option value="In Progress">In Progress</option>
             <option value="Completed">Completed</option>
@@ -40,7 +39,7 @@ export default {
     filteredTasks() {
       
       if (this.selectedStatus === 'all') {
-        console.log("InList:" + this.tasks)
+        // console.log("InList:" + this.tasks)
         return this.tasks ; // Return all tasks if "All" is selected
         
       } else {
@@ -56,16 +55,10 @@ export default {
     },
 
     markTaskCompleted(task) {
-      // Emit an event to notify the parent component that a task is marked as completed
       this.$emit('mark-task-completed', task.id);
-    },
-
-    updateFilter() {
-      this.$emit('filter-tasks', this.selectedStatus);
     },
      
     updateTaskStatus(task) {
-  // Emit an event to notify the parent component that a task's status has changed
       // console.log(task)
       this.$emit('update-task-status', task);
     }
@@ -75,7 +68,6 @@ export default {
 </script>
 
 <style scoped>
-/* TaskList-specific styles */
 .task-list-container {
   display: flex;
   flex-direction: column;

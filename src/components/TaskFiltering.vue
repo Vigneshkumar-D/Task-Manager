@@ -24,7 +24,7 @@ export default {
   },
   created() {
     this.selectedStatus = 'all'; // Set the initial value in the created hook
-    console.log("Initial selectedStatus:", this.selectedStatus);
+    // console.log("Initial selectedStatus:", this.selectedStatus);
   },
 
   methods: {
