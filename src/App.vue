@@ -55,7 +55,6 @@ export default {
     },
 
     filterTasks(selectedStatus) {
-      // console.log(selectedStatus)
       if (selectedStatus === 'all') {
         this.filteredTasksArray = this.tasks; // Show all tasks
       } else {
@@ -98,6 +97,7 @@ export default {
     if (storedTasks) {
       this.tasks = JSON.parse(storedTasks);
     }
+    this.filteredTasksArray = this.tasks
   },
 };
 </script>
