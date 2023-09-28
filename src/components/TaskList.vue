@@ -38,6 +38,7 @@ export default {
   },
   computed: {
     filteredTasks() {
+      // console.log(this.tasks)
       if (this.selectedStatus === 'all') {
         return this.tasks ; // Return all tasks if "All" is selected
       } else {

@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       tasks: [],
+      selectedStatus: 'all',
       filteredTasksArray: [], 
     };
   },
@@ -41,8 +42,14 @@ export default {
     //   } else {
     //     return this.tasks;
     //   }
-    
     // },
+    filteredTasks() {
+      if (this.selectedStatus === 'all') {
+        return this.tasks; // Show all tasks
+      } else {
+        return this.tasks.filter(task => task.taskStatus === this.selectedStatus);
+      }
+    },
   },
   methods: {
     addTask(newTask, status) {
@@ -52,7 +59,6 @@ export default {
         taskStatus: status,
         completed: false,
       };
-      console.log(task)
       this.tasks.push(task);
       this.saveTasksToLocalStorage();
     },
@@ -65,18 +71,12 @@ export default {
       }
     },
 
-    created() {
-      const storedTasks = localStorage.getItem('tasks');
-      if (storedTasks) {
-        this.tasks = JSON.parse(storedTasks);
-      }
-    },
-
-
     deleteTask(id) {
+      // const updatedTask = this.tasks.filter(task => task.id !== id);
       this.tasks = this.tasks.filter(task => task.id !== id);
       this.saveTasksToLocalStorage();
     },
+
     deleteCompletedTasks() {
       this.tasks = this.tasks.filter(task => task.taskStatus !== "Completed");
       this.saveTasksToLocalStorage();
@@ -90,7 +90,6 @@ export default {
       }
     },
     handleUpdateTaskStatus(updatedTask) {
-      console.log("updatedTask" + updatedTask)
     const taskIndex = this.tasks.findIndex(task => task.id === updatedTask.id);
     if (taskIndex !== -1) {
       this.tasks[taskIndex].taskStatus = updatedTask.taskStatus;

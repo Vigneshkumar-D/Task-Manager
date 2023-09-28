@@ -32,6 +32,7 @@ methods: {
       };
       
       this.tasks.push(task); // Push the task to the 'tasks' array
+      this.$forceUpdate();
       this.$emit('add-task', this.newTask, this.status);
       this.newTask = '';
     }
