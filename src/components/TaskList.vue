@@ -6,10 +6,11 @@
           <input
             class="check-box"
             type="checkbox"
+            :checked="task.taskStatus === 'Completed'"
             v-model="task.completed"
             @change="markTaskCompleted(task)"
           />
-          <span :class="{ 'completed-task': task.completed }">{{ task.title }}</span>
+          <span :class="{ 'completed-task': task.taskStatus=== 'Completed' }">{{ task.title }}</span>
         </div>
         <div>
           <select class="status-options" v-model="task.taskStatus" selected="task.taskStatus" @change="updateTaskStatus(task)">
@@ -28,7 +29,7 @@
 export default {
   props: {
     tasks: Array,
-    // filteredTasksArray: Array
+    filteredTasksArray: Array
   },
   data() {
     return {
@@ -38,7 +39,7 @@ export default {
   computed: {
     filteredTasks() {
       if (this.selectedStatus === 'all') {
-        return this.tasks; // Return all tasks if "All" is selected
+        return this.tasks ; // Return all tasks if "All" is selected
       } else {
         // Filter tasks based on selected status
         return this.tasks.filter(task => task.taskStatus === this.selectedStatus);
@@ -46,6 +47,7 @@ export default {
     },
   },
   methods: {
+   
     deleteTask(id) {
       this.$emit('delete-task', id);
     },

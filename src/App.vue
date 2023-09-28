@@ -7,7 +7,7 @@
         <TaskFiltering :tasks="tasks" @filter-tasks="filterTasks"></TaskFiltering>
         <TaskDeletion @delete-completed-tasks="deleteCompletedTasks"></TaskDeletion>
       </div>
-      <TaskList :tasks="filteredTasksArray" @update-task-status="handleUpdateTaskStatus" @delete-task="deleteTask" @mark-task-completed="markTaskCompleted"></TaskList>
+      <TaskList :tasks="filteredTasksArray" @initial-list="created" @update-task-status="handleUpdateTaskStatus" @delete-task="deleteTask" @mark-task-completed="markTaskCompleted"></TaskList>
     </div>
   </div>
 </template>
@@ -65,12 +65,20 @@ export default {
       }
     },
 
+    created() {
+      const storedTasks = localStorage.getItem('tasks');
+      if (storedTasks) {
+        this.tasks = JSON.parse(storedTasks);
+      }
+    },
+
+
     deleteTask(id) {
       this.tasks = this.tasks.filter(task => task.id !== id);
       this.saveTasksToLocalStorage();
     },
     deleteCompletedTasks() {
-      this.tasks = this.tasks.filter(task => !task.completed);
+      this.tasks = this.tasks.filter(task => task.taskStatus !== "Completed");
       this.saveTasksToLocalStorage();
     },
   
