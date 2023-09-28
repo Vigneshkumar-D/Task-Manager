@@ -34,15 +34,6 @@ export default {
     };
   },
   computed: {
-    // filteredTasks() {
-    //   if (this.filter === 'completed') {
-    //     return this.tasks.filter(task => task.completed);
-    //   } else if (this.filter === 'incomplete') {
-    //     return this.tasks.filter(task => !task.completed);
-    //   } else {
-    //     return this.tasks;
-    //   }
-    // },
     filteredTasks() {
       if (this.selectedStatus === 'all') {
         return this.tasks; // Show all tasks
@@ -64,6 +55,7 @@ export default {
     },
 
     filterTasks(selectedStatus) {
+      // console.log(selectedStatus)
       if (selectedStatus === 'all') {
         this.filteredTasksArray = this.tasks; // Show all tasks
       } else {
@@ -100,6 +92,7 @@ export default {
       localStorage.setItem('tasks', JSON.stringify(this.tasks));
     },
   },
+
   created() {
     const storedTasks = localStorage.getItem('tasks');
     if (storedTasks) {

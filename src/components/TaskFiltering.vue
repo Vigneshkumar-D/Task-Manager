@@ -19,12 +19,19 @@ export default {
   },
   data() {
     return {
-      selectedStatus: 'all',
+      selectedStatus: null, // Set to null initially
     };
   },
+  created() {
+    
+    this.selectedStatus = 'all'; // Set the initial value in the created hook
+    console.log("Initial selectedStatus:", this.selectedStatus);
+  },
+
   methods: {
     updateFilter() {
-      console.log(this.selectedStatus)
+      console.log("inFilterCom:" + this.selectedStatus)
+      // console.log(this.selectedStatus)
       this.$emit('filter-tasks', this.selectedStatus);
     },
   },

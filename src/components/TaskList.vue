@@ -38,9 +38,11 @@ export default {
   },
   computed: {
     filteredTasks() {
-      // console.log(this.tasks)
+      
       if (this.selectedStatus === 'all') {
+        console.log("InList:" + this.tasks)
         return this.tasks ; // Return all tasks if "All" is selected
+        
       } else {
         // Filter tasks based on selected status
         return this.tasks.filter(task => task.taskStatus === this.selectedStatus);
