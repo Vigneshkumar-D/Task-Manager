@@ -63,15 +63,16 @@ export default {
     },
 
     deleteTask(id) {
-      console.log(id)
-      // const updatedTask = this.tasks.filter(task => task.id !== id);
+      // console.log(id)
       this.tasks = this.tasks.filter(task => task.id !== id);
-      console.log(this.tasks)
+      this.filteredTasksArray = this.tasks
+      // console.log(this.tasks)
       this.saveTasksToLocalStorage();
     },
 
     deleteCompletedTasks() {
       this.tasks = this.tasks.filter(task => task.taskStatus !== "Completed");
+      this.filteredTasksArray = this.tasks
       this.saveTasksToLocalStorage();
     },
   

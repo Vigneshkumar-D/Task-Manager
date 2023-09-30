@@ -14,8 +14,7 @@ export default {
 };
 </script>
   
-  <style scoped>
-/* TaskCreation-specific styles */
+<style scoped>
 input {
   padding: 5px;
   margin-right: 10px;
